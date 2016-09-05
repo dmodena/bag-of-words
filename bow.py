@@ -1,4 +1,6 @@
-# Importanto bilbioteca de Regular Expressions
+# Importações
+import operator
+import codecs
 import re
 
 # Retorna a quantidade de pontos para formatação
@@ -7,14 +9,16 @@ def pts(number):
 
 # Método para imprimir dicionários
 def imprimir(dicionario):
-    for word in dicionario:
+    for (word, value) in dicionario:
         if len(word) < 25:
-            print(word + pts(25 - len(word)) + ": " + str(dicionario[word]))
+            print(word + pts(25 - len(word)) + ": " + str(value))
         else:
-            print(word + ": " + str(dicionario[word]))
+            print(word + ": " + str(value))
 
 # Lendo texto
-text = str(input("Digite o texto abaixo:\n\n"))
+fd = codecs.open('text.txt', 'r', 'utf-8')
+text = fd.read()
+fd.close()
 
 # Criando lista a partir do texto, ignorando capitalização
 #  e caracteres especiais
@@ -36,8 +40,11 @@ total_words = len(words)
 for word in indices:
     indices[word] /= total_words
 
+# Ordenando resultados
+sorted_indices = sorted(indices.items(), key=operator.itemgetter(1), reverse=True)
+
 # Imprimindo resultados
 print()
-imprimir(indices)
+imprimir(sorted_indices)
 print()
 print(str(total_words) + " palavras distintas.")
